@@ -6,7 +6,7 @@ use HTML::Table;
 
 # ABSTRACT: HTML::Table plugin for Data::Tabulate
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
