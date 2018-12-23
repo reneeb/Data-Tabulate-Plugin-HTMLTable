@@ -2,6 +2,7 @@ package Data::Tabulate::Plugin::HTMLTable;
 
 use warnings;
 use strict;
+
 use HTML::Table;
 
 # ABSTRACT: HTML::Table plugin for Data::Tabulate
@@ -22,6 +23,8 @@ This module renders the table for HTML
 
 create a new object of C<Data::Tabulate::Plugin::HTMLTable>.
 
+    my $obj = Data::Tabulate::Plugin::HTML::Table->new;
+
 =cut
 
 sub new{
@@ -32,6 +35,12 @@ sub new{
 
 returns a string that contains the HTML source for the table
 
+    my $html_table = $obj->output(
+        ['a1', 'b1', 'c1' ],
+        ['a2', 'b2', 'c2' ],
+        ['a3', 'b3', 'c3' ],
+    );
+
 =cut
 
 sub output {
@@ -39,8 +48,9 @@ sub output {
     
     my %atts = $self->attributes();
     my $obj  = HTML::Table->new(%atts);
-    for(@data){
-        my @row = map{defined($_) ? $_ : '&nbsp;'}@$_;
+
+    for my $row_data ( @data ){
+        my @row = map{ defined $_ ? $_ : '&nbsp;' }@{$row_data};
         $obj->addRow(@row);
     }
     
@@ -51,15 +61,27 @@ sub output {
 
 set some attributes for L<HTML::Table>.
 
+    my $obj = Data::Tabulate::Plugin::HTML::Table->new;
+    $obj->attributes(
+        -border => 1,
+        -bgcolor => 'red',
+    );
+
+    my $html_table = $obj->output(
+        ['a1', 'b1', 'c1' ],
+        ['a2', 'b2', 'c2' ],
+        ['a3', 'b3', 'c3' ],
+    );
+
 =cut
 
 sub attributes{
     my ($self,%atts) = @_;
+
     $self->{attributes} = {%atts} if keys %atts;
-    my %return = ();
-    if(defined $self->{attributes} and ref($self->{attributes}) eq 'HASH'){
-        %return = %{$self->{attributes}}
-    }
+
+    my %return = %{ $self->{attributes} || {} };
+
     return %return;
 }
 
