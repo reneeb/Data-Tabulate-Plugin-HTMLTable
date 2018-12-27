@@ -8,7 +8,7 @@ Data::Tabulate::Plugin::HTMLTable - HTML::Table plugin for Data::Tabulate
 
 # VERSION
 
-version 0.05
+version 0.06
 
 # SYNOPSIS
 
